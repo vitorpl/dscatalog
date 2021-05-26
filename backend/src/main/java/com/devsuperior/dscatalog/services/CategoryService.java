@@ -36,4 +36,16 @@ public class CategoryService {
 					catOpt.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"))
 				);
 	}
+
+
+	@Transactional
+	public CategoryDTO salvar(CategoryDTO dto) {
+		Category cat = new Category();
+		cat.setName(dto.getName());
+		cat = categoryRepository.save(cat);
+		
+		CategoryDTO dtoSalvo = new CategoryDTO(cat);
+		
+		return dtoSalvo;
+	}
 }
