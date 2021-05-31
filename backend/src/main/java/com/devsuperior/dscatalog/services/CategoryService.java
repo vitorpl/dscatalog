@@ -9,6 +9,8 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,16 @@ public class CategoryService {
 		List<CategoryDTO> dtos = 
 				list.stream().map(cat -> new CategoryDTO(cat))
 					.collect(Collectors.toList());
+		return dtos;
+	}
+	
+	public Page<CategoryDTO> findAllPaged(PageRequest pageRequest) {
+		
+		Page<Category> list = repository.findAll(pageRequest);
+		
+		Page<CategoryDTO> dtos = 
+				list.map(cat -> new CategoryDTO(cat));
+		
 		return dtos;
 	}
 
@@ -81,4 +93,7 @@ public class CategoryService {
 			throw new DatabaseException("Recurso não pode ser excluído pois possui registros dependentes");
 		}
 	}
+
+
+
 }
