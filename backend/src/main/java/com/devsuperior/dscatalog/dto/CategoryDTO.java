@@ -21,7 +21,6 @@ public class CategoryDTO implements Serializable {
 		this.name = entity.getName();
 	}
 	
-	
 	public Long getId() {
 		return id;
 	}
@@ -34,7 +33,6 @@ public class CategoryDTO implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 
 	@Override
 	public int hashCode() {

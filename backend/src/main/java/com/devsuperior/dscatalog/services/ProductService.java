@@ -85,9 +85,7 @@ public class ProductService {
 		catch(EntityNotFoundException ex) {
 			throw new ResourceNotFoundException("Id not found "+ id);
 		}
-		
 	}
-
 
 	public void delete(Long id) {
 		try {

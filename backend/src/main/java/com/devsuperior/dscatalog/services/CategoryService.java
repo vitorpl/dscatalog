@@ -44,7 +44,6 @@ public class CategoryService {
 		
 		return dtos;
 	}
-
 	
 	public CategoryDTO findById(Long id) {
 		Optional<Category> catOpt = repository.findById(id);
@@ -52,7 +51,6 @@ public class CategoryService {
 					catOpt.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"))
 				);
 	}
-
 
 	@Transactional
 	public CategoryDTO salvar(CategoryDTO dto) {
@@ -64,7 +62,6 @@ public class CategoryService {
 		
 		return dtoSalvo;
 	}
-
 
 	@Transactional
 	public CategoryDTO atualizar(Long id, CategoryDTO dto) {
@@ -81,7 +78,6 @@ public class CategoryService {
 		
 	}
 
-
 	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
@@ -93,7 +89,5 @@ public class CategoryService {
 			throw new DatabaseException("Recurso não pode ser excluído pois possui registros dependentes");
 		}
 	}
-
-
 
 }
