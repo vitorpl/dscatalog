@@ -61,9 +61,6 @@ public class ProductService {
 					entity.getCategories()
 				);
 	}
-
-
-
 	
 	@Transactional
 	public ProductDTO salvar(ProductDTO dto) {
@@ -79,7 +76,6 @@ public class ProductService {
 
 	@Transactional
 	public ProductDTO atualizar(Long id, ProductDTO dto) {
-		
 		try {
 			Product prod = repository.getById(id);
 			dtoToEntity(dto, prod);
@@ -105,11 +101,8 @@ public class ProductService {
 		}
 	}
 
-
 	private void dtoToEntity(ProductDTO dto, Product entity) {
-		
 		//BeanUtils.copyProperties(dto, entity);
-		
 		entity.setName(dto.getName());
 		entity.setDescription(dto.getDescription());
 		entity.setPrice(dto.getPrice());
