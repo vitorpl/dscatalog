@@ -14,8 +14,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.dto.ProductDTO;
+import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Product;
+import com.devsuperior.dscatalog.repositories.CategoryRepository;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
 import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
@@ -25,6 +28,9 @@ public class ProductService {
 
 	@Autowired
 	private ProductRepository repository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
 	@Transactional(readOnly = true) // ** importar do spring / readOnly melhora a performance não dando lock no bd
 	public List<ProductDTO> findAll() {
@@ -57,10 +63,12 @@ public class ProductService {
 	}
 
 
+
+	
 	@Transactional
 	public ProductDTO salvar(ProductDTO dto) {
 		Product prod = new Product();
-		//prod.setName(dto.getName());
+		dtoToEntity(dto, prod);
 		prod = repository.save(prod);
 		
 		ProductDTO dtoSalvo = new ProductDTO(prod);
@@ -74,7 +82,7 @@ public class ProductService {
 		
 		try {
 			Product prod = repository.getById(id);
-			//prod.setName(dto.getName());
+			dtoToEntity(dto, prod);
 			prod = repository.save(prod);
 			return new ProductDTO(prod);
 		}
@@ -98,5 +106,21 @@ public class ProductService {
 	}
 
 
-
+	private void dtoToEntity(ProductDTO dto, Product entity) {
+		
+		//BeanUtils.copyProperties(dto, entity);
+		
+		entity.setName(dto.getName());
+		entity.setDescription(dto.getDescription());
+		entity.setPrice(dto.getPrice());
+		entity.setDate(dto.getDate());
+		entity.setImgUrl(dto.getImgUrl());
+		
+		entity.getCategories().clear();
+		for(CategoryDTO catDto : dto.getCategories() ) {
+			Category category = categoryRepository.getById(catDto.getId()); 
+			entity.getCategories().add(category);
+		}
+		
+	}
 }
