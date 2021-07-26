@@ -6,18 +6,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Product;
 
+/**
+ * Qual o motivo de eu anotar o bean validation no DTO e não na Entity?
+ * Pois o bean validation vai validar o objeto da requisição! E o DTO nesse caso
+ * está sendo utilizado para trafegar nas requisições
+ * Nos métodos usar a annotation @Valid para validar os bean validations
+ */
 public class ProductDTO implements Serializable {
 
 	private static final long serialVersionUID = -5066270403258912034L;
 
 	private Long id;
+	
+	@Size(min = 5, max = 60, message = "Nome deve ter entre 5 e 60 caracteres")
+	@NotBlank(message = "Nome é obrigatório")
 	private String name;
+	
 	private String description;
+	
+	@Positive(message = "Preço deve ser um valor positivo")
 	private Double price;
+	
 	private String imgUrl;
+	
+	@PastOrPresent(message = "A data do produto não pode ser futura")
 	private Instant date;
 	
 	private List<CategoryDTO> categories = new ArrayList<>();

@@ -4,17 +4,24 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.beans.BeanUtils;
 
-import com.devsuperior.dscatalog.entities.Role;
 import com.devsuperior.dscatalog.entities.User;
 
 public class UserDTO implements Serializable {
 
 	private static final long serialVersionUID = -5939294373502754657L;
 	private Long id;
+	
+	@NotBlank(message = "Primeiro nome é obrigatório")
 	private String firstName;
+	
 	private String lastName;
+	
+	@Email(message = "Informe um e-mail válido")
 	private String email;
 	
 	Set<RoleDTO> roles = new HashSet<>();
